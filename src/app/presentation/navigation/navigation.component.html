@@ -1,0 +1,31 @@
+<nav class="sidenav">
+    <a routerLink="/" class="item logo">
+      <img alt="logo" src="../../../../assets/open-moji/robot.svg" />
+    </a>
+    <a class="item" routerLink="/activities">
+      <svg>
+        <title>activities</title>
+        <use href="../../../../assets/open-moji/activities.svg#emoji"></use>
+      </svg>
+      <span class="item-label">activities</span>
+    </a>
+    <a class="item" routerLink="/plan">
+      <svg>
+        <title>plan</title>
+        <use href="../../../../assets/open-moji/plan.svg#emoji"></use>
+      </svg>
+      <span class="item-label">plan</span>
+    </a>
+    <a class="item" routerLink="/settings">
+      <svg>
+        <title>settings</title>
+        <use href="../../../../assets/open-moji/settings.svg#emoji"></use>
+      </svg>
+      <span class="item-label">settings</span>
+    </a>
+    <button mat-icon-button class="theme-btn" fill="clear" (click)="changeTheme()"
+      (keydown.enter)="changeTheme()"
+      tabindex=0 aria-label="change theme">
+      <img name="theme" [src]="'../../../../assets/open-moji/' + themeIcon + '.svg#emoji'"/>
+    </button>
+  </nav>

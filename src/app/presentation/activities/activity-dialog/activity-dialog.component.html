@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Add Activity</h1>
+<form #activityForm="ngForm">
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput required name="activityName" [(ngModel)]="data.activity.name" >
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button [mat-dialog-close]="data" [disabled]="!activityForm.valid">Create</button>
+  </div>
+</form>

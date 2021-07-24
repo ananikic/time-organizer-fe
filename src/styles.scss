@@ -1,1 +1,61 @@
 /* You can add global styles to this file, and also import other style files */
+@import "variables.scss";
+@import '~@angular/material/theming';
+
+$custom-pallete: (
+    50 : #e3f8ff,
+    100 : #baeeff,
+    200 : #8ce3ff,
+    300 : #5ed7ff,
+    400 : #3ccfff,
+    500 : #19c6ff,
+    600 : #16c0ff,
+    700 : #12b9ff,
+    800 : #0eb1ff,
+    900 : #08a4ff,
+    A100 : #ffffff,
+    A200 : #f4fbff,
+    A400 : #c1e6ff,
+    A700 : #a7dcff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$custom-theme-primary: mat-palette($custom-pallete);
+$custom-theme-accent: mat-palette($mat-green);
+$custom-theme-warn: mat-palette($mat-red);
+
+$custom-theme: mat-light-theme(
+    $custom-theme-primary,
+    $custom-theme-accent,
+    $custom-theme-warn
+);
+
+html, body { height: 100%; }
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    @include angular-material-theme($custom-theme);
+}
+
+.mat-tab-body-wrapper{
+    flex-grow: 1;
+}
+
+.mat-tab-label-content {
+    color: var(--text-color);
+}

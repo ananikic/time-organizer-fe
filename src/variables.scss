@@ -1,0 +1,37 @@
+/** Global CSS Variables **/
+:root {
+    --primary-color: #19c6ff;
+    --nav-background: #fafafa;
+    --icons-color: #d0cfce;
+    --icons-label: #cccccc;
+    --activity-border-color: #eee;
+    --container-border-color: #eee;
+    --add-activity-border-color: #eee;
+    --nav-shadow-color: #d3d1d1;
+
+    --container-max-width: 1780px;
+    color: black;
+    --text-color: rgba(0, 0, 0, 0.87);
+
+    --phone-tablet-bp: 620px;
+
+    --gray0: #f8f8f8;
+    --gray1: #dbe1e8;
+    --gray2: #b2becd;
+    --gray3: #6c7983;
+    --gray4: #454e56;
+    --gray5: #2a2e35;
+    --gray6: #12181b;
+  }
+
+
+  .color-scheme-dark {
+    background-color: #333333;
+    --nav-background: #4d4d4d;
+    --container-border-color:  #0d0d0d;
+    --activity-border-color: #333333;
+    --add-activity-border-color: #4d4d4d;
+    --nav-shadow-color: none;
+    color: #f3f3f3;
+    --text-color: #f3f3f3;
+  }

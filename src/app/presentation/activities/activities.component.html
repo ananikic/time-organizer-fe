@@ -1,0 +1,21 @@
+<div class="content" role="main">
+  <mat-tab-group mat-stretch-tabs mat-align-tabs="center" [color]="'primary'">
+    <mat-tab class="tab-label" label="ALL">
+      <div class="activities-container">
+        <div class="items-container">
+          <div class="activity" *ngFor="let activity of activities | async">
+            <img [src]="'assets/open-moji/' + activity.icon + '.svg'" [alt]="activity.name">
+            <span class="name">{{ activity.name }}</span>
+          </div>
+            <div class="activity-btn-container activity">
+              <button mat-icon-button (click)="openActivityDialog()">
+                <mat-icon>add_circle</mat-icon>
+              </button>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab class="tab-label" label="SELECTED">
+    </mat-tab>
+  </mat-tab-group>
+</div>
