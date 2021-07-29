@@ -38,6 +38,8 @@
           <mat-label>How often?</mat-label>
           <div>
             <input class="frequency" min="1" name="frequency" type="number" [(ngModel)]="frequency" required/>
+            <span *ngIf="frequency === 1">time per week</span>
+            <span *ngIf="frequency > 1">times per week</span>
           </div>
         </form>
     </mat-step>
