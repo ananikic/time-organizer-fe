@@ -2,6 +2,7 @@
 @import "variables.scss";
 @import '~@angular/material/theming';
 @import '~@ctrl/ngx-emoji-mart/picker';
+@import '~bootstrap/scss/bootstrap';
 
 $custom-pallete: (
     50 : #e3f8ff,
@@ -75,6 +76,3 @@ ngb-timepicker input {
     background-color: var(--nav-background) !important;
     color: var(--text-color) !important;
 }
-
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
