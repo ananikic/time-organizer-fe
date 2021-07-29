@@ -43,9 +43,8 @@ mat-tab-group {
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 
-  img {
-    height: 42px;
-    width: 42px;
+  span.icon {
+    font-size: 24px;
     margin-right: 2px;
   }
 }

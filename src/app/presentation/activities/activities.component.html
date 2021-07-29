@@ -3,14 +3,14 @@
     <mat-tab class="tab-label" label="ALL">
       <div class="activities-container">
         <div class="items-container">
-          <div class="activity" *ngFor="let activity of activities | async">
-            <img [src]="'assets/open-moji/' + activity.icon + '.svg'" [alt]="activity.name">
+          <div class="activity" *ngFor="let activity of activities | async"  (click)="openActivityUpdateDialog(activity)">
+            <span class="icon">{{ activity.icon }}</span>
             <span class="name">{{ activity.name }}</span>
           </div>
-            <div class="activity-btn-container activity">
-              <button mat-icon-button (click)="openActivityDialog()">
-                <mat-icon>add_circle</mat-icon>
-              </button>
+          <div class="activity-btn-container activity">
+            <button mat-icon-button (click)="openActivityDialog()">
+              <mat-icon>add_circle</mat-icon>
+            </button>
           </div>
         </div>
       </div>

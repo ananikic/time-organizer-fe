@@ -24,7 +24,7 @@ export class ActivitiesComponent implements OnInit {
   openActivityDialog(): void {
     const dialogRef = this.dialog.open(ActivityDialogComponent, {
       width: '480px',
-      data: { activity: {} },
+      data: { activity: {}, update: false },
     });
 
     dialogRef.afterClosed().subscribe((data) => {
@@ -34,6 +34,19 @@ export class ActivitiesComponent implements OnInit {
 
       if (data?.reopenDialog) {
         this.openActivityDialog();
+      }
+    });
+  }
+
+  openActivityUpdateDialog(activity: Activity): void {
+    const dialogRef = this.dialog.open(ActivityDialogComponent, {
+      width: '480px',
+      data: { activity, update: true },
+    });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data?.activity) {
+        // TODO: Update Activity
       }
     });
   }

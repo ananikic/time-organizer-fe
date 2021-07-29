@@ -29,7 +29,7 @@ export class ActivityDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ActivityDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { activity: Activity, reopenDialog: boolean },
+    public data: { activity: Activity, update: boolean, reopenDialog: boolean },
     private fb: FormBuilder,
     private themeService: ThemeService) { }
 
@@ -37,22 +37,32 @@ export class ActivityDialogComponent implements OnInit {
     const theme = this.themeService.currentActive();
     this.emojiPicker.darkMode = theme === 'dark';
 
+    this.initData();
+  }
+
+  initData(): void {
     this.activityFormGroup = this.fb.group({
       activityFormArray: this.fb.array([
         this.fb.group({
-          name: ['', Validators.required],
-          icon: ['🔎', Validators.required],
+          name: [this.data.update ? this.data.activity.name : '', Validators.required],
+          icon: [this.data.update ? this.data.activity.icon : '🔎', Validators.required],
         }),
         this.fb.group({
-          duration: [60, Validators.required],
-          frequency: [1, Validators.required]
+          duration: [this.data.update ? this.data.activity.duration : 60, Validators.required],
+          frequency: [this.data.update ? this.data.activity.frequency : 1, Validators.required]
         }),
         this.fb.group({
-          dayPreference:  [[]],
-          timePreference:  [[]],
+          dayPreference:  [this.data.update ? this.data.activity.dayPreference : []],
+          timePreference:  [this.data.update ? this.data.activity.timePreference : []],
         }),
       ])
     });
+
+    if (this.data.update) {
+      this.time.hour = Math.floor(this.data.activity.duration / 60);
+      this.time.minute = this.data.activity.duration % 60;
+      this.frequency = this.data.activity.frequency;
+    }
   }
 
   onCreate(reopenDialog: boolean): void {
@@ -71,7 +81,31 @@ export class ActivityDialogComponent implements OnInit {
         dayPreference: formData[2].dayPreference,
         timePreference: formData[2].timePreference,
       },
+      update: false,
       reopenDialog
+    };
+
+    this.dialogRef.close(this.data);
+  }
+
+  onUpdate(): void {
+    this.activityFormArray?.get([1])?.setValue({
+      duration: this.time.hour * 60 + this.time.minute,
+      frequency: this.frequency,
+    });
+
+    const formData = this.activityFormArray?.value;
+    this.data = {
+      activity: {
+        name: formData[0].name,
+        icon: formData[0].icon,
+        duration: formData[1].duration,
+        frequency: formData[1].frequency,
+        dayPreference: formData[2].dayPreference,
+        timePreference: formData[2].timePreference,
+      },
+      update: true,
+      reopenDialog: false
     };
 
     this.dialogRef.close(this.data);
@@ -89,11 +123,11 @@ export class ActivityDialogComponent implements OnInit {
   }
 
   noDayPreference(): boolean {
-    return !this.activityFormArray?.value[2].dayPreference.length;
+    return !this.activityFormArray?.value[2].dayPreference?.length;
   }
 
   noTimePreference(): boolean {
-    return !this.activityFormArray?.value[2].timePreference.length;
+    return !this.activityFormArray?.value[2].timePreference?.length;
   }
 
   get activityFormArray(): AbstractControl | null {
