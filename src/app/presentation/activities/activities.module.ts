@@ -4,6 +4,8 @@ import { ActivitiesRoutingModule } from './activities-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { ActivitiesComponent } from './activities.component';
 import { ActivityDialogComponent } from './activity-dialog/activity-dialog.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { ActivityDialogComponent } from './activity-dialog/activity-dialog.compo
   ],
   imports: [
     SharedModule,
-    ActivitiesRoutingModule
+    ActivitiesRoutingModule,
+    PickerModule,
+    EmojiModule,
   ]
 })
 export class ActivitiesModule { }

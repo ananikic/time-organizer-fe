@@ -1,13 +1,74 @@
 <h1 mat-dialog-title>Add Activity</h1>
-<form #activityForm="ngForm">
-  <div mat-dialog-content>
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input matInput required name="activityName" [(ngModel)]="data.activity.name" >
-    </mat-form-field>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-button [mat-dialog-close]="data" [disabled]="!activityForm.valid">Create</button>
-  </div>
-</form>
+
+<mat-dialog-content [formGroup]="activityFormGroup">
+  <mat-vertical-stepper formArrayName="activityFormArray" [linear]="false">
+    <ng-template matStepperIcon="edit">
+      <mat-icon>done</mat-icon>
+    </ng-template>
+
+    <mat-step formGroupName="0" [stepControl]="activityFormArray?.get([0])!">
+      <ng-template matStepLabel>What?</ng-template>
+      <div class="what-container">
+        <button mat-icon-button class="choose-icon" (click)="toggleEmojiPicker()">
+            <input matInput formControlName="icon" required>
+        </button>
+        <mat-form-field class="activity-name">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" required>
+        </mat-form-field>
+      </div>
+
+      <emoji-mart *ngIf="showEmojis"
+        [darkMode]="emojiPicker.darkMode"
+        [isNative]="emojiPicker.native"
+        [hideRecent]="false"
+        (emojiSelect)="handleEmoji($event)"
+        [showPreview]="false"
+      >
+      </emoji-mart>
+    </mat-step>
+
+    <mat-step formGroupName="1" [stepControl]="activityFormArray?.get([1])!">
+      <ng-template matStepLabel>How?</ng-template>
+        <form name="how">
+          <mat-label>How long?</mat-label>
+          <div>
+            <ngb-timepicker name="time" [(ngModel)]="time" required></ngb-timepicker>
+          </div>
+          <mat-label>How often?</mat-label>
+          <div>
+            <input class="frequency" min="1" name="frequency" type="number" [(ngModel)]="frequency" required/>
+          </div>
+        </form>
+    </mat-step>
+
+    <mat-step formGroupName="2" [stepControl]="activityFormArray?.get([2])!">
+      <ng-template matStepLabel>When?</ng-template>
+      <mat-form-field>
+        <mat-label>Day Preference
+          <span *ngIf="noDayPreference()"> - None</span>
+        </mat-label>
+        <mat-select multiple name="days" formControlName="dayPreference">
+          <mat-option *ngFor="let day of days" [value]="day.name">
+            {{ day.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Time Preference
+          <span *ngIf="noTimePreference()"> - None</span>
+        </mat-label>
+        <mat-select multiple name="time" formControlName="timePreference">
+          <mat-option *ngFor="let time of dayTimes" [value]="time.name">
+            {{ time.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-step>
+  </mat-vertical-stepper>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onCreate()" [disabled]="!activityFormGroup.valid">Create</button>
+</mat-dialog-actions>

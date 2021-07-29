@@ -19,7 +19,7 @@ export class ThemeService {
    * If no prefers-color-scheme is stored in localStorage, tries to detect OS default prefers-color-scheme.
    * If none is found, the default is light.
    */
-     load() {
+    load() {
       this.getColorScheme();
       this.renderer.addClass(document.body, this.colorSchemePrefix + this.colorScheme);
     }

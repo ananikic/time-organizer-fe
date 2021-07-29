@@ -9,7 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatStepperModule } from '@angular/material/stepper'
+import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 const modules = [
   CommonModule,
@@ -23,7 +25,9 @@ const modules = [
   MatFormFieldModule,
   MatInputModule,
   MatCheckboxModule,
-  MatTabsModule
+  MatTabsModule,
+  MatStepperModule,
+  NgbTimepickerModule
 ];
 
 @NgModule({

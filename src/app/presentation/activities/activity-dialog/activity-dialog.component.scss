@@ -4,10 +4,40 @@ h1 {
 
 mat-form-field {
     width: 100%;
+
+    &.activity-name {
+        width: 90%;
+    }
 }
 
 .mat-dialog-actions {
     display: flex;
     justify-content: center;
     margin-top: auto;
+}
+
+.frequency {
+    margin-top: 5px;
+    width: 5em;
+    height: 3em;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    text-align: center;
+    background-color: var(--nav-background);
+    color: var(--text-color);
+}
+
+.what-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button input {
+        cursor: pointer;
+    }
+}
+
+.choose-icon {
+    font-size: 24px;
 }
