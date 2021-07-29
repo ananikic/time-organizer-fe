@@ -31,6 +31,10 @@ export class ActivitiesComponent implements OnInit {
       if (data?.activity) {
         // TODO: Create Activity
       }
+
+      if (data?.reopenDialog) {
+        this.openActivityDialog();
+      }
     });
   }
 

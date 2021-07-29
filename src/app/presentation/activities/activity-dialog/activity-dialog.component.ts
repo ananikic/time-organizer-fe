@@ -29,7 +29,7 @@ export class ActivityDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ActivityDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { activity: Activity },
+    public data: { activity: Activity, reopenDialog: boolean },
     private fb: FormBuilder,
     private themeService: ThemeService) { }
 
@@ -55,20 +55,23 @@ export class ActivityDialogComponent implements OnInit {
     });
   }
 
-  onCreate(): void {
+  onCreate(reopenDialog: boolean): void {
     this.activityFormArray?.get([1])?.setValue({
       duration: this.time.hour * 60 + this.time.minute,
       frequency: this.frequency,
     });
 
     const formData = this.activityFormArray?.value;
-    this.data.activity = {
-      name: formData[0].name,
-      icon: formData[0].icon,
-      duration: formData[1].duration,
-      frequency: formData[1].frequency,
-      dayPreference: formData[2].dayPreference,
-      timePreference: formData[2].timePreference,
+    this.data = {
+      activity: {
+        name: formData[0].name,
+        icon: formData[0].icon,
+        duration: formData[1].duration,
+        frequency: formData[1].frequency,
+        dayPreference: formData[2].dayPreference,
+        timePreference: formData[2].timePreference,
+      },
+      reopenDialog
     };
 
     this.dialogRef.close(this.data);
