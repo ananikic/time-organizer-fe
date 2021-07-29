@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "variables.scss";
 @import '~@angular/material/theming';
+@import '~@ctrl/ngx-emoji-mart/picker';
+@import '~bootstrap/scss/bootstrap';
 
 $custom-pallete: (
     50 : #e3f8ff,
@@ -39,7 +41,13 @@ $custom-theme-primary: mat-palette($custom-pallete);
 $custom-theme-accent: mat-palette($mat-green);
 $custom-theme-warn: mat-palette($mat-red);
 
-$custom-theme: mat-light-theme(
+$custom-theme-light: mat-light-theme(
+    $custom-theme-primary,
+    $custom-theme-accent,
+    $custom-theme-warn
+);
+
+$custom-theme-dark: mat-dark-theme(
     $custom-theme-primary,
     $custom-theme-accent,
     $custom-theme-warn
@@ -49,13 +57,22 @@ html, body { height: 100%; }
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    @include angular-material-theme($custom-theme);
+    @include angular-material-theme($custom-theme-light);
+
+    &.color-scheme-dark {
+        @include angular-material-theme($custom-theme-dark);
+    }
 }
 
 .mat-tab-body-wrapper{
     flex-grow: 1;
 }
 
-.mat-tab-label-content {
-    color: var(--text-color);
+.mat-step-icon {
+    color: var(--mat-step-color) !important;
+}
+
+ngb-timepicker input {
+    background-color: var(--nav-background) !important;
+    color: var(--text-color) !important;
 }

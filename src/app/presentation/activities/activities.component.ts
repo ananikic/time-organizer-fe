@@ -23,13 +23,17 @@ export class ActivitiesComponent implements OnInit {
 
   openActivityDialog(): void {
     const dialogRef = this.dialog.open(ActivityDialogComponent, {
-      width: '320px',
+      width: '480px',
       data: { activity: {} },
     });
 
     dialogRef.afterClosed().subscribe((data) => {
       if (data?.activity) {
         // TODO: Create Activity
+      }
+
+      if (data?.reopenDialog) {
+        this.openActivityDialog();
       }
     });
   }

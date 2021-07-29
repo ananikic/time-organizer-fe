@@ -9,6 +9,7 @@ import { SharedModule } from './presentation/shared/shared.module';
 import { environment } from 'src/environments/environment';
 import { ActivitiesApiService } from './core/activities/services/activities-api.service';
 import { MockActivitiesApiService } from './core/activities/services/mock-activities-api.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const apiProviderActivities = {
   provide: ActivitiesApiService,
@@ -24,7 +25,8 @@ const apiProviderActivities = {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    NgbModule
   ],
   providers: [apiProviderActivities],
   bootstrap: [AppComponent]
