@@ -25,6 +25,7 @@ export class ActivitiesComponent implements OnInit {
     const dialogRef = this.dialog.open(ActivityDialogComponent, {
       width: '480px',
       data: { activity: {}, update: false },
+      restoreFocus: false,
     });
 
     dialogRef.afterClosed().subscribe((data) => {
@@ -42,6 +43,7 @@ export class ActivitiesComponent implements OnInit {
     const dialogRef = this.dialog.open(ActivityDialogComponent, {
       width: '480px',
       data: { activity, update: true },
+      restoreFocus: false,
     });
 
     dialogRef.afterClosed().subscribe((data) => {
@@ -49,6 +51,10 @@ export class ActivitiesComponent implements OnInit {
         // TODO: Update Activity
       }
     });
+  }
+
+  onSelect(event: any): void {
+    event.stopPropagation();
   }
 
 }

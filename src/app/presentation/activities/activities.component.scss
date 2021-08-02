@@ -36,16 +36,25 @@ mat-tab-group {
   flex-basis: 12.5%;
   margin: 0px;
   padding: 12px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 
-  span.icon {
-    font-size: 24px;
-    margin-right: 2px;
+  mat-checkbox {
+    margin-top: 2%;
+    margin-left: 85%;
+  }
+
+  .activity-title {
+    height: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    span.icon {
+      font-size: 24px;
+      margin-right: 2px;
+    }
   }
 }
 
