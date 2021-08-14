@@ -12,6 +12,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatStepperModule } from '@angular/material/stepper'
 import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteButttonComponent } from './delete-buttton/delete-buttton.component';
 
 const modules = [
   CommonModule,
@@ -31,10 +32,12 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    DeleteButttonComponent
+  ],
   imports: [
     ...modules
   ],
-  exports: [...modules],
+  exports: [...modules, DeleteButttonComponent],
 })
 export class SharedModule { }

@@ -5,4 +5,5 @@ export interface Activity {
     frequency: number;
     dayPreference?: string[];
     timePreference?: string[];
+    selected?: boolean;
 }

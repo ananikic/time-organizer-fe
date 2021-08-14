@@ -1,4 +1,5 @@
-<h1 mat-dialog-title>Add Activity</h1>
+<h1 *ngIf="!data.update" mat-dialog-title>Add Activity</h1>
+<h1 *ngIf="data.update" mat-dialog-title>Update Activity</h1>
 
 <mat-dialog-content [formGroup]="activityFormGroup">
   <mat-vertical-stepper formArrayName="activityFormArray" [linear]="false">
@@ -71,9 +72,12 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button (click)="onCreate(false)" [disabled]="!activityFormGroup.valid">Create</button>
-  <button mat-button (click)="onCreate(true)" [disabled]="!activityFormGroup.valid">
+  <button *ngIf="!data.update" mat-button (click)="onCancel()">Cancel</button>
+  <button *ngIf="!data.update" mat-button (click)="onCreate(false)" [disabled]="!activityFormGroup.valid">Create</button>
+  <button *ngIf="!data.update" mat-button (click)="onCreate(true)" [disabled]="!activityFormGroup.valid">
     Create <mat-icon class="plus-icon" color="primary">add_circle</mat-icon>
   </button>
+  <button *ngIf="data.update" mat-button (click)="onUpdate()"
+  [disabled]="!activityFormGroup.valid" cdkFocusInitial>Update</button>
+  <app-delete-buttton *ngIf="data.update" (delete)="onDelete()"></app-delete-buttton>
 </mat-dialog-actions>
