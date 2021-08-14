@@ -72,10 +72,12 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancel</button>
+  <button *ngIf="!data.update" mat-button (click)="onCancel()">Cancel</button>
   <button *ngIf="!data.update" mat-button (click)="onCreate(false)" [disabled]="!activityFormGroup.valid">Create</button>
   <button *ngIf="!data.update" mat-button (click)="onCreate(true)" [disabled]="!activityFormGroup.valid">
     Create <mat-icon class="plus-icon" color="primary">add_circle</mat-icon>
   </button>
-  <button *ngIf="data.update" mat-button (click)="onUpdate()" [disabled]="!activityFormGroup.valid">Update</button>
+  <button *ngIf="data.update" mat-button (click)="onUpdate()"
+  [disabled]="!activityFormGroup.valid" cdkFocusInitial>Update</button>
+  <app-delete-buttton *ngIf="data.update" (delete)="onDelete()"></app-delete-buttton>
 </mat-dialog-actions>

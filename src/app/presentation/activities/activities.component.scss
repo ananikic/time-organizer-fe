@@ -4,7 +4,7 @@ mat-tab-group {
 }
 
 .content {
-  margin: 32px 32px auto 102px;
+  margin: 0px 32px auto 102px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -39,9 +39,13 @@ mat-tab-group {
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 
-  mat-checkbox {
-    margin-top: 2%;
-    margin-left: 85%;
+  .edit-btn {
+    margin-top: -8%;
+    margin-left: 80%;
+
+    mat-icon {
+      font-size: 20px;
+    }
   }
 
   .activity-title {
@@ -55,6 +59,10 @@ mat-tab-group {
       font-size: 24px;
       margin-right: 2px;
     }
+  }
+
+  &.selected {
+    border: 3px solid var(--primary-color);
   }
 }
 
@@ -73,6 +81,31 @@ mat-tab-group {
       height: 26px;
     }
   }
+}
+
+.select-all {
+  position: fixed;
+  right: 242px;
+  bottom: 58px;
+}
+
+.generate-btn {
+  font-size: 20px;
+  color: var(--text-color-primary) !important;
+  position: fixed;
+  width: 200px;
+  height: 56px;
+  right: 32px;
+  bottom: 48px;
+  border-radius: 8px;
+
+  &:disabled {
+    border: 1px solid var(--activity-border-color);
+    color: var(--text-color) !important;
+    background-color: var(--nav-background) !important;
+  }
+
+  transition: all 0.2s ease-in-out;
 }
 
 /* Responsive Styles */

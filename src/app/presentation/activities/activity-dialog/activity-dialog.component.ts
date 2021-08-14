@@ -111,6 +111,10 @@ export class ActivityDialogComponent implements OnInit {
     this.dialogRef.close(this.data);
   }
 
+  onDelete(): void {
+    // TODO: Delete Activity
+  }
+
   handleEmoji(event: EmojiEvent): void {
     this.activityFormArray?.get([0])?.patchValue({
       icon: event.emoji.native
