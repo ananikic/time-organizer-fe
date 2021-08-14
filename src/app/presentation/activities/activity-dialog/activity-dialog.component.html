@@ -14,7 +14,7 @@
             <input matInput formControlName="icon" required>
         </button>
         <mat-form-field class="activity-name">
-          <mat-label>Name</mat-label>
+          <mat-label>What do you wanna do this week?</mat-label>
           <input matInput formControlName="name" required>
         </mat-form-field>
       </div>
@@ -32,15 +32,15 @@
     <mat-step formGroupName="1" [stepControl]="activityFormArray?.get([1])!">
       <ng-template matStepLabel>How?</ng-template>
         <form name="how">
-          <mat-label>How long?</mat-label>
-          <div>
-            <ngb-timepicker name="time" [(ngModel)]="time" required></ngb-timepicker>
-          </div>
           <mat-label>How often?</mat-label>
-          <div>
+          <div class="frequency-container">
             <input class="frequency" min="1" name="frequency" type="number" [(ngModel)]="frequency" required/>
             <span *ngIf="frequency === 1">time per week</span>
             <span *ngIf="frequency > 1">times per week</span>
+          </div>
+          <mat-label>And for how long?</mat-label>
+          <div>
+            <ngb-timepicker name="time" [(ngModel)]="time" required></ngb-timepicker>
           </div>
         </form>
     </mat-step>
@@ -48,8 +48,8 @@
     <mat-step formGroupName="2" [stepControl]="activityFormArray?.get([2])!">
       <ng-template matStepLabel>When?</ng-template>
       <mat-form-field>
-        <mat-label>Day Preference
-          <span *ngIf="noDayPreference()"> - None</span>
+        <mat-label>On any specific day?
+          <span *ngIf="noDayPreference()"> Nope</span>
         </mat-label>
         <mat-select multiple name="days" formControlName="dayPreference">
           <mat-option *ngFor="let day of days" [value]="day.name">
@@ -58,8 +58,8 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Time Preference
-          <span *ngIf="noTimePreference()"> - None</span>
+        <mat-label>At any specific time?
+          <span *ngIf="noTimePreference()"> Nope</span>
         </mat-label>
         <mat-select multiple name="time" formControlName="timePreference">
           <mat-option *ngFor="let time of dayTimes" [value]="time.name">
