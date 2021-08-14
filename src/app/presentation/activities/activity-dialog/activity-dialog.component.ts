@@ -14,7 +14,7 @@ import { ThemeService } from 'src/app/core/services/theme.service';
 export class ActivityDialogComponent implements OnInit {
 
   activityFormGroup!: FormGroup;
-  time = { hour: 1, minute: 0 };
+  duration = { hour: 1, minute: 0 };
   frequency = 1;
   days = Object.values(DAY);
   dayTimes = Object.values(TIME);
@@ -54,20 +54,21 @@ export class ActivityDialogComponent implements OnInit {
         this.fb.group({
           dayPreference:  [this.data.update ? this.data.activity.dayPreference : []],
           timePreference:  [this.data.update ? this.data.activity.timePreference : []],
+          concreteTime: [this.data.update ? this.data.activity.concreteTime : {}],
         }),
       ])
     });
 
     if (this.data.update) {
-      this.time.hour = Math.floor(this.data.activity.duration / 60);
-      this.time.minute = this.data.activity.duration % 60;
+      this.duration.hour = Math.floor(this.data.activity.duration / 60);
+      this.duration.minute = this.data.activity.duration % 60;
       this.frequency = this.data.activity.frequency;
     }
   }
 
   onCreate(reopenDialog: boolean): void {
     this.activityFormArray?.get([1])?.setValue({
-      duration: this.time.hour * 60 + this.time.minute,
+      duration: this.duration.hour * 60 + this.duration.minute,
       frequency: this.frequency,
     });
 
@@ -80,6 +81,7 @@ export class ActivityDialogComponent implements OnInit {
         frequency: formData[1].frequency,
         dayPreference: formData[2].dayPreference,
         timePreference: formData[2].timePreference,
+        concreteTime: formData[2].concreteTime,
       },
       update: false,
       reopenDialog
@@ -90,7 +92,7 @@ export class ActivityDialogComponent implements OnInit {
 
   onUpdate(): void {
     this.activityFormArray?.get([1])?.setValue({
-      duration: this.time.hour * 60 + this.time.minute,
+      duration: this.duration.hour * 60 + this.duration.minute,
       frequency: this.frequency,
     });
 
@@ -103,6 +105,7 @@ export class ActivityDialogComponent implements OnInit {
         frequency: formData[1].frequency,
         dayPreference: formData[2].dayPreference,
         timePreference: formData[2].timePreference,
+        concreteTime: formData[2].concreteTime,
       },
       update: true,
       reopenDialog: false
@@ -132,6 +135,10 @@ export class ActivityDialogComponent implements OnInit {
 
   noTimePreference(): boolean {
     return !this.activityFormArray?.value[2].timePreference?.length;
+  }
+
+  concreteTimePreference(): boolean {
+    return this.activityFormArray?.value[2].timePreference?.includes(TIME.CONCRETE.name);
   }
 
   get activityFormArray(): AbstractControl | null {

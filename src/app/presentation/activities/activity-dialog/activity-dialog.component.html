@@ -40,7 +40,7 @@
           </div>
           <mat-label>And for how long?</mat-label>
           <div>
-            <ngb-timepicker name="time" [(ngModel)]="time" required></ngb-timepicker>
+            <ngb-timepicker name="duration" [(ngModel)]="duration" required></ngb-timepicker>
           </div>
         </form>
     </mat-step>
@@ -67,6 +67,11 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div *ngIf="concreteTimePreference()">
+        <div>
+          <ngb-timepicker name="concreteTime" formControlName="concreteTime"></ngb-timepicker>
+        </div>
+      </div>
     </mat-step>
   </mat-vertical-stepper>
 </mat-dialog-content>

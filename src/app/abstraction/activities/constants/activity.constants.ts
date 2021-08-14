@@ -12,4 +12,5 @@ export const TIME = {
     MORNING: { name: 'Morning' },
     AFTERNOON: { name: 'Afternoon' },
     EVENING: { name: 'Evening' },
+    CONCRETE: { name: 'Concrete Time' }
 }
