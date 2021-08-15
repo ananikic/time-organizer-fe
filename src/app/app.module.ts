@@ -10,6 +10,8 @@ import { environment } from 'src/environments/environment';
 import { ActivitiesApiService } from './core/activities/services/activities-api.service';
 import { MockActivitiesApiService } from './core/activities/services/mock-activities-api.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 const apiProviderActivities = {
   provide: ActivitiesApiService,
@@ -26,9 +28,14 @@ const apiProviderActivities = {
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    NgbModule
+    NgbModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter, useFactory: adapterFactory,
+     })
   ],
-  providers: [apiProviderActivities],
+  providers: [
+    apiProviderActivities,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

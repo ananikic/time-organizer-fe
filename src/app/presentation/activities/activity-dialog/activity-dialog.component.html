@@ -69,7 +69,7 @@
       </mat-form-field>
       <div *ngIf="concreteTimePreference()">
         <div>
-          <ngb-timepicker name="concreteTime" formControlName="concreteTime"></ngb-timepicker>
+          <ngb-timepicker [meridian]=true name="concreteTime" formControlName="concreteTime"></ngb-timepicker>
         </div>
       </div>
     </mat-step>

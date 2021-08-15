@@ -3,6 +3,7 @@
 @import '~@angular/material/theming';
 @import '~@ctrl/ngx-emoji-mart/picker';
 @import '~bootstrap/scss/bootstrap';
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 
 $custom-pallete: (
     50 : #e3f8ff,
@@ -75,4 +76,32 @@ body {
 ngb-timepicker input {
     background-color: var(--nav-background) !important;
     color: var(--text-color) !important;
+}
+
+ngb-timepicker .btn-link, .btn-outline-primary {
+    color: var(--primary-color) !important;
+}
+
+ngb-timepicker .btn-outline-primary {
+    color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+
+    &:hover {
+        color: white !important;
+        background-color: var(--primary-color) !important;
+    }
+}
+
+/* Week Plan Styles */
+.cal-weekend span {
+    color: var(--complementary-color) !important;
+}
+
+.cal-today {
+    background-color: #e0f7ff !important;
+
+    span {
+        color: var(--primary-color) !important;
+        opacity: 1 !important;
+    }
 }
