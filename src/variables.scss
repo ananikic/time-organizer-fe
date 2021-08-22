@@ -1,6 +1,7 @@
 /** Global CSS Variables **/
 :root {
     --primary-color: #19c6ff;
+    --complementary-color: #FF5219;
     --nav-background: #fafafa;
     --icons-color: #d0cfce;
     --icons-label: #cccccc;
@@ -15,6 +16,11 @@
     --phone-tablet-bp: 620px;
     --mat-step-color: white;
     --text-color-primary: white;
+    --background: white;
+    --plan-border-color: #e1e1e1;
+    --plan-hover-color: #ededed;
+    --today-background: #e0f7ff;
+    --today-text: var(--primary-color);
 
     --gray0: #f8f8f8;
     --gray1: #dbe1e8;
@@ -28,6 +34,7 @@
 
   .color-scheme-dark {
     background-color: #333333;
+    --background: #333333;
     --nav-background: #4d4d4d;
     --container-border-color:  #0d0d0d;
     --activity-border-color: #333333;
@@ -37,4 +44,9 @@
     --text-color: #f3f3f3;
     --mat-step-color: black;
     --text-color-primary: white;
+    --gray3: #dbe1e8;
+    --plan-border-color: #6c7983;
+    --plan-hover-color: var(--gray6);
+    --today-background: var(--primary-color);
+    --today-text: #e0f7ff;
   }

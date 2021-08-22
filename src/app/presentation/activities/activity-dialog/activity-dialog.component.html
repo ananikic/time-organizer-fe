@@ -27,6 +27,15 @@
         [showPreview]="false"
       >
       </emoji-mart>
+
+      <div class="colors-container">
+        <span class="color-dot" *ngFor="let color of colors" (click)="onSelect(color)"
+          [ngStyle]="{
+            'background-color': color.secondary,
+            'border': color === activityFormArray!.value[0].color ? '2px solid ' + color.primary : ''
+            }">
+        </span>
+      </div>
     </mat-step>
 
     <mat-step formGroupName="1" [stepControl]="activityFormArray?.get([1])!">
@@ -69,7 +78,7 @@
       </mat-form-field>
       <div *ngIf="concreteTimePreference()">
         <div>
-          <ngb-timepicker name="concreteTime" formControlName="concreteTime"></ngb-timepicker>
+          <ngb-timepicker [meridian]=true name="concreteTime" formControlName="concreteTime"></ngb-timepicker>
         </div>
       </div>
     </mat-step>

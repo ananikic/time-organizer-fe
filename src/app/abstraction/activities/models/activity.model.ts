@@ -1,6 +1,8 @@
 export interface Activity {
+    id?: number;
     name: string;
     icon: string;
+    color: ActivityColor;
     duration: number;
     frequency: number;
     dayPreference?: string[];
@@ -8,3 +10,9 @@ export interface Activity {
     concreteTime?: {};
     selected?: boolean;
 }
+
+export interface ActivityColor {
+    primary: string;
+    secondary: string;
+    isLight: boolean;
+};

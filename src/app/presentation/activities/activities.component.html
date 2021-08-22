@@ -1,31 +1,30 @@
 <div class="content" role="main">
-  <mat-tab-group mat-stretch-tabs mat-align-tabs="center" [color]="'primary'">
-    <mat-tab class="tab-label" label="WEEKLY ACTIVITIES">
-      <div class="activities-container">
-        <div class="items-container">
-          <div class="activity" *ngFor="let activity of activities"
-            (click)="onSelect(activity)" [ngClass]="{'selected': activity.selected }">
-            <button class="edit-btn" mat-icon-button (click)="openActivityUpdateDialog(activity, $event)">
-              <mat-icon *ngIf="!activity.selected" color="primary">edit</mat-icon>
-              <mat-icon *ngIf="activity.selected" color="primary">check</mat-icon>
-            </button>
-            <div class="activity-title">
-              <span class="icon">{{ activity.icon }}</span>
-              <span class="name">{{ activity.name }}</span>
-            </div>
-          </div>
-          <div class="activity-btn-container activity">
-            <button mat-icon-button (click)="openActivityDialog()">
-              <mat-icon>add_circle</mat-icon>
-            </button>
-          </div>
+  <div class="title-container">
+    <h1>Weekly Activities</h1>
+  </div>
+  <div class="activities-container">
+    <div class="items-container">
+      <div class="activity" *ngFor="let activity of activities"
+        (click)="onSelect(activity)" [ngClass]="{'selected': activity.selected }">
+        <button class="edit-btn" mat-icon-button (click)="openActivityUpdateDialog(activity, $event)">
+          <mat-icon *ngIf="!activity.selected" color="primary">edit</mat-icon>
+          <mat-icon *ngIf="activity.selected" color="primary">check</mat-icon>
+        </button>
+        <div class="activity-title">
+          <span class="icon">{{ activity.icon }}</span>
+          <span class="name">{{ activity.name }}</span>
         </div>
       </div>
-      <button mat-icon-button color="primary" class="select-all" (click)="onSelectAll()">
-        <mat-icon>select_all</mat-icon>
-      </button>
-      <button mat-raised-button color="primary" class="generate-btn"
-      (click)="generatePlan()" [disabled]="this.selected.length < 1">Generate Plan</button>
-    </mat-tab>
-  </mat-tab-group>
+      <div class="activity-btn-container activity">
+        <button mat-icon-button (click)="openActivityDialog()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <button mat-icon-button color="primary" class="select-all" (click)="onSelectAll()">
+    <mat-icon>select_all</mat-icon>
+  </button>
+  <button mat-raised-button color="primary" class="generate-btn"
+  (click)="generatePlan()" [disabled]="this.selected.length < 1">Generate Plan</button>
 </div>

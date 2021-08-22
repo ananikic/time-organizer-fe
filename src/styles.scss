@@ -3,6 +3,7 @@
 @import '~@angular/material/theming';
 @import '~@ctrl/ngx-emoji-mart/picker';
 @import '~bootstrap/scss/bootstrap';
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 
 $custom-pallete: (
     50 : #e3f8ff,
@@ -75,4 +76,63 @@ body {
 ngb-timepicker input {
     background-color: var(--nav-background) !important;
     color: var(--text-color) !important;
+}
+
+ngb-timepicker .btn-link, .btn-outline-primary {
+    color: var(--primary-color) !important;
+}
+
+ngb-timepicker .btn-outline-primary {
+    color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+
+    &:hover {
+        color: white !important;
+        background-color: var(--primary-color) !important;
+    }
+}
+
+/* Week Plan Styles */
+.cal-weekend span {
+    color: var(--complementary-color) !important;
+}
+
+.cal-today {
+    background-color: var(--today-background) !important;
+
+    span {
+        color: var(--today-text) !important;
+        opacity: 1 !important;
+    }
+}
+
+.cal-event {
+    border-width: 2px !important;
+    cursor: pointer !important;
+}
+
+.light span {
+    color: black !important;
+}
+
+.dark span {
+    color: white !important;
+}
+
+.cal-week-view {
+    background-color: var(--background) !important;
+    border-color: var(--plan-border-color) !important;
+}
+
+.cal-hour-odd {
+    background-color: var(--nav-background) !important;
+    border-color: var(--plan-border-color) !important;
+}
+
+.cal-day-headers, .cal-time-events, .cal-day-column, .cal-header, .cal-hour-segment, .cal-hour-start {
+    border-color: var(--plan-border-color) !important;
+}
+
+.cal-header:hover, .cal-hour-segment:hover {
+    background-color: var(--plan-hover-color) !important;
 }

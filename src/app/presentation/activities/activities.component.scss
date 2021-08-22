@@ -11,9 +11,19 @@ mat-tab-group {
   height: 100%;
 }
 
+.title-container {
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+
+  h1 {
+      color: var(--gray3);
+  }
+}
+
 .activities-container {
   border: 1px solid var(--container-border-color);
-  height: 80%;
+  height: 86%;
   max-width: var(--container-max-width);
   overflow-y: auto;
 
@@ -85,7 +95,7 @@ mat-tab-group {
 
 .select-all {
   position: fixed;
-  right: 242px;
+  right: 258px;
   bottom: 58px;
 }
 
@@ -95,7 +105,7 @@ mat-tab-group {
   position: fixed;
   width: 200px;
   height: 56px;
-  right: 32px;
+  right: 48px;
   bottom: 48px;
   border-radius: 8px;
 
