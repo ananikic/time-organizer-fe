@@ -12,10 +12,17 @@ import { MockActivitiesApiService } from './core/activities/services/mock-activi
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { PlanApiService } from './core/plan/services/plan-api.service';
+import { MockPlanApiService } from './core/plan/services/mock-plan-api.service';
 
 const apiProviderActivities = {
   provide: ActivitiesApiService,
   useClass: environment.useMockApi ? MockActivitiesApiService : ActivitiesApiService
+};
+
+const apiProviderPlan = {
+  provide: PlanApiService,
+  useClass: environment.useMockApi ? MockPlanApiService : PlanApiService
 };
 
 @NgModule({
@@ -35,6 +42,7 @@ const apiProviderActivities = {
   ],
   providers: [
     apiProviderActivities,
+    apiProviderPlan
   ],
   bootstrap: [AppComponent]
 })

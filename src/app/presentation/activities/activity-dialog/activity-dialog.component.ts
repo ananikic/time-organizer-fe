@@ -2,8 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
-import { DAY, TIME } from 'src/app/abstraction/activities/constants/activity.constants';
-import { Activity } from 'src/app/abstraction/activities/models/activity.model';
+import { COLOR, DAY, TIME } from 'src/app/abstraction/activities/constants/activity.constants';
+import { Activity, ActivityColor } from 'src/app/abstraction/activities/models/activity.model';
 import { ThemeService } from 'src/app/core/services/theme.service';
 
 @Component({
@@ -19,6 +19,7 @@ export class ActivityDialogComponent implements OnInit {
   days = Object.values(DAY);
   dayTimes = Object.values(TIME);
   showEmojis = false;
+  colors = Object.values(COLOR);
 
   emojiPicker = {
     set: 'native',
@@ -46,6 +47,7 @@ export class ActivityDialogComponent implements OnInit {
         this.fb.group({
           name: [this.data.update ? this.data.activity.name : '', Validators.required],
           icon: [this.data.update ? this.data.activity.icon : '🔎', Validators.required],
+          color: [this.data.update ? this.data.activity.color : COLOR.CANARY, Validators.required],
         }),
         this.fb.group({
           duration: [this.data.update ? this.data.activity.duration : 60, Validators.required],
@@ -77,6 +79,7 @@ export class ActivityDialogComponent implements OnInit {
       activity: {
         name: formData[0].name,
         icon: formData[0].icon,
+        color: formData[0].color,
         duration: formData[1].duration,
         frequency: formData[1].frequency,
         dayPreference: formData[2].dayPreference,
@@ -101,6 +104,7 @@ export class ActivityDialogComponent implements OnInit {
       activity: {
         name: formData[0].name,
         icon: formData[0].icon,
+        color: formData[0].color,
         duration: formData[1].duration,
         frequency: formData[1].frequency,
         dayPreference: formData[2].dayPreference,
@@ -123,6 +127,12 @@ export class ActivityDialogComponent implements OnInit {
       icon: event.emoji.native
     });
     this.showEmojis = false;
+  }
+
+  onSelect(color: ActivityColor): void {
+    this.activityFormArray?.get([0])?.patchValue({
+      color
+    });
   }
 
   toggleEmojiPicker(): void {
