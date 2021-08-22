@@ -1,0 +1,31 @@
+<h1 mat-dialog-title [ngStyle]="{
+    'background-color': data.activityInstance.color!.secondary,
+    'border': '2px solid ' + data.activityInstance.color!.primary,
+    'color': data.activityInstance.color!.isLight ? 'black' : 'white'
+    }">
+    {{ data.activityInstance.title }}
+</h1>
+<div class="content" mat-dialog-content>
+    <div class="colors-container">
+        <span class="color-dot" *ngFor="let color of colors" (click)="onSelect(color)"
+          [ngStyle]="{
+            'background-color': color.secondary,
+            'border': color === data.activityInstance.color ? '2px solid ' + color.primary : ''
+            }">
+        </span>
+      </div>
+
+      <div class="timepicker">
+          From:
+        <ngb-timepicker [meridian]=true name="concreteTimeStart" [(ngModel)]="startTime"></ngb-timepicker>
+      </div>
+      <div class="timepicker">
+          To:
+        <ngb-timepicker [meridian]=true name="concreteTimeEnd" [(ngModel)]="endTime"></ngb-timepicker>
+      </div>
+</div>
+
+<mat-dialog-actions>
+    <button mat-button (click)="onUpdate()" cdkFocusInitial>Update</button>
+    <app-delete-buttton (delete)="onDelete()"></app-delete-buttton>
+</mat-dialog-actions>

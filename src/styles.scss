@@ -98,16 +98,17 @@ ngb-timepicker .btn-outline-primary {
 }
 
 .cal-today {
-    background-color: #e0f7ff !important;
+    background-color: var(--today-background) !important;
 
     span {
-        color: var(--primary-color) !important;
+        color: var(--today-text) !important;
         opacity: 1 !important;
     }
 }
 
 .cal-event {
     border-width: 2px !important;
+    cursor: pointer !important;
 }
 
 .light span {
@@ -116,4 +117,22 @@ ngb-timepicker .btn-outline-primary {
 
 .dark span {
     color: white !important;
+}
+
+.cal-week-view {
+    background-color: var(--background) !important;
+    border-color: var(--plan-border-color) !important;
+}
+
+.cal-hour-odd {
+    background-color: var(--nav-background) !important;
+    border-color: var(--plan-border-color) !important;
+}
+
+.cal-day-headers, .cal-time-events, .cal-day-column, .cal-header, .cal-hour-segment, .cal-hour-start {
+    border-color: var(--plan-border-color) !important;
+}
+
+.cal-header:hover, .cal-hour-segment:hover {
+    background-color: var(--plan-hover-color) !important;
 }

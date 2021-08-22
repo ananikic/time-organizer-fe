@@ -1,0 +1,37 @@
+h1 {
+    text-align: center;
+    padding-bottom: 6px;
+    padding-top: 6px;
+    border-radius: 5px;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.timepicker {
+    margin-left: 15%;
+    margin-top: 5px;
+}
+
+.mat-dialog-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    margin-left: 25px;
+}
+
+.colors-container {
+    width: 76%;
+    margin-left: 15%;
+    margin-top: 10px;
+}
+
+.color-dot {
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 2px;
+}
