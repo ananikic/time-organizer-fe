@@ -22,9 +22,9 @@ mat-tab-group {
 }
 
 .activities-container {
+  position: relative;
   border: 1px solid var(--container-border-color);
   height: 86%;
-  max-width: var(--container-max-width);
   overflow-y: auto;
 
   .items-container {
@@ -32,7 +32,6 @@ mat-tab-group {
     flex-wrap: wrap;
     justify-content: flex-start;
     padding: 16px;
-    max-width: 1760px;
   }
 }
 
@@ -94,19 +93,19 @@ mat-tab-group {
 }
 
 .select-all {
-  position: fixed;
-  right: 258px;
-  bottom: 58px;
+  position: absolute;
+  right: 226px;
+  bottom: 24px;
 }
 
 .generate-btn {
   font-size: 20px;
   color: var(--text-color-primary) !important;
-  position: fixed;
+  position: absolute;
   width: 200px;
   height: 56px;
-  right: 48px;
-  bottom: 48px;
+  right: 16px;
+  bottom: 16px;
   border-radius: 8px;
 
   &:disabled {
@@ -119,6 +118,8 @@ mat-tab-group {
 }
 
 /* Responsive Styles */
+$screen-min-bp10: 1420px;
+$screen-min-bp0: 1320px;
 $screen-min-bp1: 1220px;
 $screen-min-bp2: 1070px;
 $screen-min-bp3: 920px;
@@ -128,6 +129,8 @@ $screen-min-bp6: 470px;
 $screen-min-bp7: 0px;
 $screen-min-bp8: 300px;
 $screen-min-bp9: 350px;
+$screen-max-bp10: 2220px;
+$screen-max-bp0: 1420px;
 $screen-max-bp1: 1320px;
 $screen-max-bp2: 1220px;
 $screen-max-bp3: 1070px;
@@ -136,6 +139,18 @@ $screen-max-bp5: 770px;
 $screen-max-bp6: 620px;
 $screen-max-bp7: 470px;
 $screen-max-bp8: 300px;
+
+@media (min-width: $screen-min-bp10) and (max-width: $screen-max-bp10) {
+  .activity {
+    flex-basis: 11.1%;
+  }
+}
+
+@media (min-width: $screen-min-bp0) and (max-width: $screen-max-bp0) {
+  .activity {
+    flex-basis: 12.5%;
+  }
+}
 
 @media (min-width: $screen-min-bp1) and (max-width: $screen-max-bp1) {
   .activity {
