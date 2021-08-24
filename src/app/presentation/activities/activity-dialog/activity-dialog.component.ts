@@ -102,6 +102,7 @@ export class ActivityDialogComponent implements OnInit {
     const formData = this.activityFormArray?.value;
     this.data = {
       activity: {
+        id: this.data.activity.id,
         name: formData[0].name,
         icon: formData[0].icon,
         color: formData[0].color,

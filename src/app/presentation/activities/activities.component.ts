@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { Activity } from 'src/app/abstraction/activities/models/activity.model';
+import { Subscription } from 'rxjs';
+import { Activity, ActivityBinding } from 'src/app/abstraction/activities/models/activity.model';
 import { ActivitiesApiService } from 'src/app/core/activities/services/activities-api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivityDialogComponent } from './activity-dialog/activity-dialog.component';
@@ -16,11 +16,12 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   activities!: Activity[];
   activitiesSub!: Subscription;
   selected: Activity[] = [];
+  userId = 1;
 
   constructor(public apiActivities: ActivitiesApiService, public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.activitiesSub = this.apiActivities.getActivities().subscribe((res) => {
+    this.activitiesSub = this.apiActivities.getActivities(this.userId).subscribe((res) => {
       this.activities = res;
     });
   }
@@ -32,9 +33,24 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       restoreFocus: false,
     });
 
-    dialogRef.afterClosed().subscribe((data) => {
+    dialogRef.afterClosed().subscribe((data: {activity: Activity; update: boolean; reopenDialog: boolean}) => {
       if (data?.activity) {
-        // TODO: Create Activity
+        const activityBinding: ActivityBinding = {
+          name: data.activity.name,
+          userId: this.userId,
+          icon: data.activity.icon,
+          secondaryColor: data.activity.color.secondaryColor,
+          duration: data.activity.duration,
+          frequency: data.activity.frequency,
+          dayPreference: data.activity.dayPreference,
+          timePreference: data.activity.timePreference,
+          concreteTimeHour: data.activity.concreteTime?.hour,
+          concreteTimeMinute: data.activity.concreteTime?.minute
+        };
+
+        this.apiActivities.createActivity(activityBinding).subscribe((activity: Activity) => {
+          this.activities.push(activity);
+        });
       }
 
       if (data?.reopenDialog) {
@@ -45,15 +61,32 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
   openActivityUpdateDialog(activity: Activity, event: any): void {
     event.stopPropagation();
+
     const dialogRef = this.dialog.open(ActivityDialogComponent, {
       width: '480px',
       data: { activity, update: true },
       restoreFocus: false,
     });
 
-    dialogRef.afterClosed().subscribe((data) => {
+    dialogRef.afterClosed().subscribe((data: {activity: Activity; update: boolean; reopenDialog: boolean}) => {
       if (data?.activity) {
-        // TODO: Update Activity
+        const activityBinding: ActivityBinding = {
+          id: data.activity.id,
+          name: data.activity.name,
+          userId: this.userId,
+          icon: data.activity.icon,
+          secondaryColor: data.activity.color.secondaryColor,
+          duration: data.activity.duration,
+          frequency: data.activity.frequency,
+          dayPreference: data.activity.dayPreference,
+          timePreference: data.activity.timePreference,
+          concreteTimeHour: data.activity.concreteTime?.hour,
+          concreteTimeMinute: data.activity.concreteTime?.minute
+        };
+
+        this.apiActivities.updateActivity(activityBinding).subscribe((updatedActivity: Activity) => {
+          this.activities = this.activities.map((a) => a.id !== updatedActivity.id ? a : updatedActivity);
+        });
       }
     });
   }
@@ -78,7 +111,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   }
 
   generatePlan(): void {
-
+    // TODO: Generate Plan
   }
 
   ngOnDestroy(): void {

@@ -51,7 +51,7 @@ export class PlanComponent implements OnInit {
         start: activityInstance.start,
         end: activityInstance.end,
         title: activityInstance.title,
-        color: { primary: activityInstance.color?.primary || '', secondary: activityInstance.color?.secondary || '' },
+        color: { primary: activityInstance.color?.primaryColor || '', secondary: activityInstance.color?.secondaryColor || '' },
         cssClass: activityInstance.color?.isLight ? 'light' : 'dark',
         resizable: {
             beforeStart: true,
@@ -94,7 +94,7 @@ export class PlanComponent implements OnInit {
       return iEvent;
     });
 
-    // TODO: Update activity instance start and end
+    // TODO: Update Activity Instance start and end
   }
 
   startDragToCreate(

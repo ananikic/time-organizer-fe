@@ -14,6 +14,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { PlanApiService } from './core/plan/services/plan-api.service';
 import { MockPlanApiService } from './core/plan/services/mock-plan-api.service';
+import { HttpClientModule } from '@angular/common/http';
 
 const apiProviderActivities = {
   provide: ActivitiesApiService,
@@ -35,6 +36,7 @@ const apiProviderPlan = {
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
+    HttpClientModule,
     NgbModule,
     CalendarModule.forRoot({
       provide: DateAdapter, useFactory: adapterFactory,

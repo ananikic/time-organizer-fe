@@ -31,8 +31,8 @@
       <div class="colors-container">
         <span class="color-dot" *ngFor="let color of colors" (click)="onSelect(color)"
           [ngStyle]="{
-            'background-color': color.secondary,
-            'border': color === activityFormArray!.value[0].color ? '2px solid ' + color.primary : ''
+            'background-color': color.secondaryColor,
+            'border': color.secondaryColor== activityFormArray!.value[0].color!.secondaryColor ? '2px solid ' + color.primaryColor : ''
             }">
         </span>
       </div>

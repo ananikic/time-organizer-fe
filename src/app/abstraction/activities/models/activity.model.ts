@@ -12,7 +12,21 @@ export interface Activity {
 }
 
 export interface ActivityColor {
-    primary: string;
-    secondary: string;
+    primaryColor: string;
+    secondaryColor: string;
     isLight: boolean;
 };
+
+export interface ActivityBinding {
+  id?: number;
+  name: string;
+  userId: number;
+  icon: string;
+  secondaryColor: string;
+  duration: number;
+  frequency: number;
+  dayPreference?: string[];
+  timePreference?: string[];
+  concreteTimeHour?: number;
+  concreteTimeMinute?: number;
+}

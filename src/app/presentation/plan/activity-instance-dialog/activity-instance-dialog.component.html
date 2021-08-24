@@ -1,6 +1,6 @@
 <h1 mat-dialog-title [ngStyle]="{
-    'background-color': data.activityInstance.color!.secondary,
-    'border': '2px solid ' + data.activityInstance.color!.primary,
+    'background-color': data.activityInstance.color!.secondaryColor,
+    'border': '2px solid ' + data.activityInstance.color!.primaryColor,
     'color': data.activityInstance.color!.isLight ? 'black' : 'white'
     }">
     {{ data.activityInstance.title }}
@@ -9,8 +9,8 @@
     <div class="colors-container">
         <span class="color-dot" *ngFor="let color of colors" (click)="onSelect(color)"
           [ngStyle]="{
-            'background-color': color.secondary,
-            'border': color === data.activityInstance.color ? '2px solid ' + color.primary : ''
+            'background-color': color,
+            'border': color === data.activityInstance.color ? '2px solid ' + color.primaryColor : ''
             }">
         </span>
       </div>
