@@ -56,7 +56,7 @@ export class ActivityDialogComponent implements OnInit {
         this.fb.group({
           dayPreference:  [this.data.update ? this.data.activity.dayPreference : []],
           timePreference:  [this.data.update ? this.data.activity.timePreference : []],
-          concreteTime: [this.data.update ? this.data.activity.concreteTime : {}],
+          concreteTime: [this.data.update ? { hour: parseInt(this.data.activity.concreteTime?.split(":")[0] || ''), minute: parseInt(this.data.activity.concreteTime?.split(":")[1]  || '') } : {}],
         }),
       ])
     });
@@ -84,7 +84,7 @@ export class ActivityDialogComponent implements OnInit {
         frequency: formData[1].frequency,
         dayPreference: formData[2].dayPreference,
         timePreference: formData[2].timePreference,
-        concreteTime: formData[2].concreteTime,
+        concreteTime: formData[2].concreteTime.hour + ":" + formData[2].concreteTime.minute,
       },
       update: false,
       reopenDialog
@@ -110,7 +110,7 @@ export class ActivityDialogComponent implements OnInit {
         frequency: formData[1].frequency,
         dayPreference: formData[2].dayPreference,
         timePreference: formData[2].timePreference,
-        concreteTime: formData[2].concreteTime,
+        concreteTime: formData[2].concreteTime.hour + ":" + formData[2].concreteTime.minute,
       },
       update: true,
       reopenDialog: false

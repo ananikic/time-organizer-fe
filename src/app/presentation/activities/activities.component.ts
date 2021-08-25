@@ -44,8 +44,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
           frequency: data.activity.frequency,
           dayPreference: data.activity.dayPreference,
           timePreference: data.activity.timePreference,
-          concreteTimeHour: data.activity.concreteTime?.hour,
-          concreteTimeMinute: data.activity.concreteTime?.minute
+          concreteTimeHour: data.activity.concreteTime ? +data.activity.concreteTime.split(":")[0] : undefined,
+          concreteTimeMinute: data.activity.concreteTime ? +data.activity.concreteTime!.split(":")[1] : undefined,
         };
 
         this.apiActivities.createActivity(activityBinding).subscribe((activity: Activity) => {
@@ -80,8 +80,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
           frequency: data.activity.frequency,
           dayPreference: data.activity.dayPreference,
           timePreference: data.activity.timePreference,
-          concreteTimeHour: data.activity.concreteTime?.hour,
-          concreteTimeMinute: data.activity.concreteTime?.minute
+          concreteTimeHour: data.activity.concreteTime ? +data.activity.concreteTime.split(":")[0] : undefined,
+          concreteTimeMinute: data.activity.concreteTime ? +data.activity.concreteTime!.split(":")[1] : undefined,
         };
 
         this.apiActivities.updateActivity(activityBinding).subscribe((updatedActivity: Activity) => {

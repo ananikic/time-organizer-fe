@@ -13,7 +13,7 @@ export class MockActivitiesApiService {
   public getActivities(userId: number): Observable<Activity[]> {
     return of([
       { name: 'yoga', icon: '🧘‍♂️', duration: 30, frequency: 3, dayPreference: ['Monday', 'Tuesday'], timePreference: [], color: COLOR.ALMOND },
-      { name: 'work', icon: '👩‍💼', duration: 480, frequency: 3, timePreference: ['Concrete Time'], concreteTime: {hour:14, minute:0}, color: COLOR.ALMOND },
+      { name: 'work', icon: '👩‍💼', duration: 480, frequency: 3, timePreference: ['Concrete Time'], concreteTime: "19:30:00", color: COLOR.ALMOND },
       { name: 'board games', icon: '🎲', duration: 180, frequency: 1, color: COLOR.ALMOND },
       { name: 'exercise', icon: '🏊‍♂️', duration: 60, frequency: 3, color: COLOR.ALMOND },
       { name: 'family time', icon: '👨‍👩‍👦', duration: 32, frequency: 3, color: COLOR.ALMOND },

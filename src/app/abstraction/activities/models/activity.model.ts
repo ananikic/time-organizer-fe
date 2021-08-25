@@ -7,7 +7,7 @@ export interface Activity {
     frequency: number;
     dayPreference?: string[];
     timePreference?: string[];
-    concreteTime?: { hour: number; minute: number; };
+    concreteTime?: string;
     selected?: boolean;
 }
 
