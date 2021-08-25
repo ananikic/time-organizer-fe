@@ -13,6 +13,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatStepperModule } from '@angular/material/stepper'
 import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteButttonComponent } from './delete-buttton/delete-buttton.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 const modules = [
   CommonModule,
@@ -28,7 +30,9 @@ const modules = [
   MatCheckboxModule,
   MatTabsModule,
   MatStepperModule,
-  NgbTimepickerModule
+  NgbTimepickerModule,
+  PickerModule,
+  EmojiModule,
 ];
 
 @NgModule({

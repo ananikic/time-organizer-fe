@@ -68,8 +68,12 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       restoreFocus: false,
     });
 
-    dialogRef.afterClosed().subscribe((data: {activity: Activity; update: boolean; reopenDialog: boolean}) => {
-      if (data?.activity) {
+    dialogRef.afterClosed().subscribe((data: {activity: Activity; update: boolean; delete: boolean; reopenDialog: boolean}) => {
+      if (data?.delete) {
+        this.apiActivities.deleteActivity(data.activity.id!).subscribe(() => {
+          this.activities = this.activities.filter((a) => a.id !== data.activity.id);
+        });
+      } else if (data?.activity) {
         const activityBinding: ActivityBinding = {
           id: data.activity.id,
           name: data.activity.name,

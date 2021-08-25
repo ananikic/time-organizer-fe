@@ -30,7 +30,7 @@ export class ActivityDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ActivityDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { activity: Activity, update: boolean, reopenDialog: boolean },
+    public data: { activity: Activity, update: boolean, delete: boolean, reopenDialog: boolean },
     private fb: FormBuilder,
     private themeService: ThemeService) { }
 
@@ -87,13 +87,14 @@ export class ActivityDialogComponent implements OnInit {
         concreteTime: formData[2].concreteTime.hour + ":" + formData[2].concreteTime.minute,
       },
       update: false,
+      delete: false,
       reopenDialog
     };
 
     this.dialogRef.close(this.data);
   }
 
-  onUpdate(): void {
+  onUpdate(deleteActivity: boolean): void {
     this.activityFormArray?.get([1])?.setValue({
       duration: this.duration.hour * 60 + this.duration.minute,
       frequency: this.frequency,
@@ -113,14 +114,11 @@ export class ActivityDialogComponent implements OnInit {
         concreteTime: formData[2].concreteTime.hour + ":" + formData[2].concreteTime.minute,
       },
       update: true,
+      delete: deleteActivity,
       reopenDialog: false
     };
 
     this.dialogRef.close(this.data);
-  }
-
-  onDelete(): void {
-    // TODO: Delete Activity
   }
 
   handleEmoji(event: EmojiEvent): void {

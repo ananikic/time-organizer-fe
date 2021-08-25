@@ -91,7 +91,7 @@
   <button *ngIf="!data.update" mat-button (click)="onCreate(true)" [disabled]="!activityFormGroup.valid">
     Create <mat-icon class="plus-icon" color="primary">add_circle</mat-icon>
   </button>
-  <button *ngIf="data.update" mat-button (click)="onUpdate()"
+  <button *ngIf="data.update" mat-button (click)="onUpdate(false)"
   [disabled]="!activityFormGroup.valid" cdkFocusInitial>Update</button>
-  <app-delete-buttton *ngIf="data.update" (delete)="onDelete()"></app-delete-buttton>
+  <app-delete-buttton *ngIf="data.update" (delete)="onUpdate(true)"></app-delete-buttton>
 </mat-dialog-actions>

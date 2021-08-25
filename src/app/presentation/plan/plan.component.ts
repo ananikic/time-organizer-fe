@@ -1,22 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
-import { fromEvent, Subject, Subscription } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
-import { ActivityInstance } from 'src/app/abstraction/activities/models/activityInstance.model';
+import { Subject, Subscription } from 'rxjs';
+import { ActivityInstance, ActivityInstanceBinding } from 'src/app/abstraction/activities/models/activityInstance.model';
 import { PlanApiService } from 'src/app/core/plan/services/plan-api.service';
 import { ActivityInstanceDialogComponent } from './activity-instance-dialog/activity-instance-dialog.component';
 import { WeekViewHourSegment } from 'calendar-utils';
-import { addDays, addMinutes, endOfWeek } from 'date-fns';
-
-function floorToNearest(amount: number, precision: number) {
-  return Math.floor(amount / precision) * precision;
-}
-
-function ceilToNearest(amount: number, precision: number) {
-  return Math.ceil(amount / precision) * precision;
-}
-
+import { addMinutes, formatISO } from 'date-fns';
+import { COLOR } from 'src/app/abstraction/activities/constants/activity.constants';
 
 @Component({
   selector: 'app-plan',
@@ -32,13 +23,14 @@ export class PlanComponent implements OnInit {
   activityInstances!: ActivityInstance[];
   activityInstancesSub!: Subscription;
 
-  dragToCreateActive = false;
   weekStartsOn: any = 1;
+
+  userId = 1;
 
   constructor(public apiPlan: PlanApiService, public dialog: MatDialog, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.activityInstancesSub = this.apiPlan.getActivityInstances().subscribe((res) => {
+    this.activityInstancesSub = this.apiPlan.getActivityInstances(this.userId).subscribe((res) => {
       this.activityInstances = res;
       this.initEvents();
     });
@@ -48,8 +40,8 @@ export class PlanComponent implements OnInit {
     this.activityInstances.forEach((activityInstance) => {
       this.events.push({
         id: activityInstance.id,
-        start: activityInstance.start,
-        end: activityInstance.end,
+        start: new Date(activityInstance.start),
+        end: new Date(activityInstance.end!),
         title: activityInstance.title,
         color: { primary: activityInstance.color?.primaryColor || '', secondary: activityInstance.color?.secondaryColor || '' },
         cssClass: activityInstance.color?.isLight ? 'light' : 'dark',
@@ -60,6 +52,7 @@ export class PlanComponent implements OnInit {
         draggable: true,
       });
     });
+    this.refreshView();
   }
 
   onClick(event: CalendarEvent): void {
@@ -71,9 +64,39 @@ export class PlanComponent implements OnInit {
       restoreFocus: false
     });
 
-    dialogRef.afterClosed().subscribe((data) => {
-      if (data?.activity) {
-        // TODO: Update Activity Instance
+    dialogRef.afterClosed().subscribe((data: { activityInstance: ActivityInstance; delete: boolean }) => {
+      if (data?.delete) {
+        this.apiPlan.deleteActivityInstance(data.activityInstance.id!).subscribe(() => {
+          this.activityInstances = this.activityInstances.filter((a) => a.id !== data.activityInstance.id);
+          this.events = this.events.filter((e) => e.id !== data.activityInstance.id);
+        });
+      } else if (data?.activityInstance) {
+        const activityInstanceBinding: ActivityInstanceBinding = {
+          id: data.activityInstance.id,
+          title: data.activityInstance.title,
+          start: data.activityInstance.start,
+          end: data.activityInstance.end,
+          userId: this.userId,
+          secondaryColor: data.activityInstance.color!.secondaryColor
+        };
+
+        this.apiPlan.updateActivityInstance(activityInstanceBinding).subscribe((updatedActivityInstance: ActivityInstance) => {
+          this.activityInstances = this.activityInstances.map((a) => a.id !== updatedActivityInstance.id ? a : updatedActivityInstance);
+          const updatedEvent: CalendarEvent = {
+            id: updatedActivityInstance.id,
+            start: new Date(updatedActivityInstance.start),
+            end: new Date(updatedActivityInstance.end!),
+            title: updatedActivityInstance.title,
+            color: { primary: updatedActivityInstance.color?.primaryColor || '', secondary: updatedActivityInstance.color?.secondaryColor || '' },
+            cssClass: updatedActivityInstance.color?.isLight ? 'light' : 'dark',
+            resizable: {
+                beforeStart: true,
+                afterEnd: true,
+            },
+            draggable: true,
+          };
+          this.events = this.events.map((e) => e.id !== updatedActivityInstance.id ? e : updatedEvent);
+        });
       }
     });
   }
@@ -94,65 +117,70 @@ export class PlanComponent implements OnInit {
       return iEvent;
     });
 
-    // TODO: Update Activity Instance start and end
+    const activityInstance: ActivityInstance | undefined = this.activityInstances
+      .find((activityInstance) => activityInstance.id === event.id);
+
+    if (activityInstance) {
+      const activityInstanceBinding: ActivityInstanceBinding = {
+        id: activityInstance.id,
+        title: activityInstance.title,
+        start: formatISO(newStart).slice(0, -6),
+        end: formatISO(newEnd!).slice(0, -6),
+        userId: this.userId,
+        secondaryColor: activityInstance.color!.secondaryColor
+      };
+      this.apiPlan.updateActivityInstance(activityInstanceBinding).subscribe((updatedActivityInstance: ActivityInstance) => {
+        this.activityInstances = this.activityInstances.map((a) => a.id !== updatedActivityInstance.id ? a : updatedActivityInstance);
+        const updatedEvent: CalendarEvent = {
+          id: updatedActivityInstance.id,
+          start: new Date(updatedActivityInstance.start),
+          end: new Date(updatedActivityInstance.end!),
+          title: updatedActivityInstance.title,
+          color: { primary: updatedActivityInstance.color?.primaryColor || '', secondary: updatedActivityInstance.color?.secondaryColor || '' },
+          cssClass: updatedActivityInstance.color?.isLight ? 'light' : 'dark',
+          resizable: {
+              beforeStart: true,
+              afterEnd: true,
+          },
+          draggable: true,
+        };
+        this.events = this.events.map((e) => e.id !== updatedActivityInstance.id ? e : updatedEvent);
+      });
+    }
   }
 
   startDragToCreate(
-    segment: WeekViewHourSegment,
-    mouseDownEvent: MouseEvent,
-    segmentElement: HTMLElement
+    segment: WeekViewHourSegment
   ) {
     const dragToSelectEvent: CalendarEvent = {
       id: this.events.length,
       title: '🔎 new event',
       start: segment.date,
+      color: { primary: COLOR.CANARY.primaryColor, secondary: COLOR.CANARY.secondaryColor },
       meta: {
         tmpEvent: true,
       },
     };
 
-    // TODO: Create Activity Instance
+    const activityInstanceBinding: ActivityInstanceBinding = {
+      title: dragToSelectEvent.title,
+      start: formatISO(segment.date).slice(0, -6),
+      end:  formatISO(addMinutes(dragToSelectEvent.start, 30)).slice(0, -6),
+      userId: this.userId,
+      secondaryColor: COLOR.CANARY.secondaryColor
+    };
 
-    this.events = [...this.events, dragToSelectEvent];
-
-    const segmentPosition = segmentElement.getBoundingClientRect();
-    this.dragToCreateActive = true;
-    const endOfView = endOfWeek(this.viewDate, {
-      weekStartsOn: this.weekStartsOn,
+    this.apiPlan.createActivityInstance(activityInstanceBinding).subscribe((activityInstance) => {
+      dragToSelectEvent.id = activityInstance.id;
+      this.activityInstances.push(activityInstance);
+      this.events = [...this.events, dragToSelectEvent];
+      this.onClick(dragToSelectEvent);
     });
 
-    fromEvent(document, 'mousemove')
-      .pipe(
-        finalize(() => {
-          delete dragToSelectEvent.meta.tmpEvent;
-          this.dragToCreateActive = false;
-          this.refreshView();
-        }),
-        takeUntil(fromEvent(document, 'mouseup'))
-      )
-      .subscribe((mouseMoveEvent: any) => {
-        const minutesDiff = ceilToNearest(
-          mouseMoveEvent.clientY - segmentPosition.top,
-          30
-        );
-
-        const daysDiff =
-          floorToNearest(
-            mouseMoveEvent.clientX - segmentPosition.left,
-            segmentPosition.width
-          ) / segmentPosition.width;
-
-        const newEnd = addDays(addMinutes(segment.date, minutesDiff), daysDiff);
-        if (newEnd > segment.date && newEnd < endOfView) {
-          dragToSelectEvent.end = newEnd;
-        }
-        this.refreshView();
-      });
   }
 
   private refreshView(): void {
     this.events = [...this.events];
     this.cdr.detectChanges();
   }
-
 }
