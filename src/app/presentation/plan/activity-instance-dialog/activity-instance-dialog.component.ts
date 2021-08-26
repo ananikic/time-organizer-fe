@@ -5,6 +5,7 @@ import { formatISO } from 'date-fns';
 import { COLOR } from 'src/app/abstraction/activities/constants/activity.constants';
 import { ActivityColor } from 'src/app/abstraction/activities/models/activity.model';
 import { ActivityInstance } from 'src/app/abstraction/activities/models/activityInstance.model';
+import { ThemeService } from 'src/app/core/services/theme.service';
 
 @Component({
   selector: 'app-activity-instance-dialog',
@@ -26,9 +27,12 @@ export class ActivityInstanceDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<ActivityInstanceDialogComponent>,
               @Inject(MAT_DIALOG_DATA)
-              public data: { activityInstance: ActivityInstance; delete: boolean }) { }
+              public data: { activityInstance: ActivityInstance; delete: boolean; create?: boolean; },
+              private themeService: ThemeService) { }
 
   ngOnInit(): void {
+    const theme = this.themeService.currentActive();
+    this.emojiPicker.darkMode = theme === 'dark';
     this.startTime = { hour: +this.data.activityInstance.start.split("T")[1].split(":")[0], minute: +this.data.activityInstance.start.split("T")[1].split(":")[1]};
     this.endTime = { hour: +this.data.activityInstance.end!.split("T")[1].split(":")[0], minute: +this.data.activityInstance.end!.split("T")[1].split(":")[1]};
   }

@@ -34,6 +34,7 @@
 </div>
 
 <mat-dialog-actions>
-    <button mat-button (click)="onUpdate(false)" cdkFocusInitial>Update</button>
-    <app-delete-buttton (delete)="onUpdate(true)"></app-delete-buttton>
+    <button *ngIf="!data.create" mat-button (click)="onUpdate(false)" cdkFocusInitial>Update</button>
+    <button *ngIf="data.create" mat-button (click)="onUpdate(false)" cdkFocusInitial>Save</button>
+    <app-delete-buttton *ngIf="!data.create" (delete)="onUpdate(true)"></app-delete-buttton>
 </mat-dialog-actions>
