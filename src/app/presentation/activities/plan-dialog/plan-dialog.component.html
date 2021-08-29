@@ -1,0 +1,16 @@
+<h1>Generate Week</h1>
+<form #planForm="ngForm">
+  <mat-dialog-content>
+      <mat-form-field appearance="fill">
+        <mat-label>Start Week on: </mat-label>
+        <input matInput [matDatepicker]="picker" name="weekStart" [(ngModel)]="data.plan.start" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button  [mat-dialog-close]="data" [disabled]="!planForm.valid">Generate</button>
+  </mat-dialog-actions>
+</form>

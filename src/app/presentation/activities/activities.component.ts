@@ -4,6 +4,11 @@ import { Activity, ActivityBinding } from 'src/app/abstraction/activities/models
 import { ActivitiesApiService } from 'src/app/core/activities/services/activities-api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivityDialogComponent } from './activity-dialog/activity-dialog.component';
+import { PlanDialogComponent } from './plan-dialog/plan-dialog.component';
+import { Plan, PlanBinding } from 'src/app/abstraction/activities/models/plan.model';
+import { addDays, formatISO } from 'date-fns';
+import { PlanApiService } from 'src/app/core/plan/services/plan-api.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +23,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   selected: Activity[] = [];
   userId = 1;
 
-  constructor(public apiActivities: ActivitiesApiService, public dialog: MatDialog) { }
+  constructor(public apiActivities: ActivitiesApiService, public apiPlan: PlanApiService,
+    public dialog: MatDialog, private router: Router) { }
 
   ngOnInit() {
     this.activitiesSub = this.apiActivities.getActivities(this.userId).subscribe((res) => {
@@ -115,7 +121,31 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   }
 
   generatePlan(): void {
-    // TODO: Generate Plan
+    const dialogRef = this.dialog.open(PlanDialogComponent, {
+      data: {
+        plan: {
+        selectedActivities: this.selected,
+        userId: this.userId,
+        start: null,
+      }
+    },
+      restoreFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe((data: { plan: Plan; }) => {
+      if (data?.plan) {
+        const planBinding: PlanBinding = {
+          activities: data.plan.selectedActivities,
+          userId: data.plan.userId,
+          start: formatISO(data.plan.start).slice(0, -6),
+          end:  formatISO(addDays(data.plan.start, 7)).slice(0, -6),
+        };
+
+        this.apiPlan.createPlan(planBinding).subscribe(() => {
+          this.router.navigate(['plan']);
+        });
+      }
+    });
   }
 
   ngOnDestroy(): void {

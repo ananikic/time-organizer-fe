@@ -7,7 +7,7 @@ export interface Activity {
     frequency: number;
     dayPreference?: string[];
     timePreference?: string[];
-    concreteTime?: string;
+    concreteTime?: string | null;
     selected?: boolean;
 }
 
@@ -27,6 +27,6 @@ export interface ActivityBinding {
   frequency: number;
   dayPreference?: string[];
   timePreference?: string[];
-  concreteTimeHour?: number;
+  concreteTimeHour?: number ;
   concreteTimeMinute?: number;
 }

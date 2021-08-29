@@ -91,6 +91,10 @@ export class ActivityDialogComponent implements OnInit {
       reopenDialog
     };
 
+    if (!this.data.activity.timePreference?.includes(TIME.CONCRETE.name)) {
+      this.data.activity.concreteTime = undefined;
+    }
+
     this.dialogRef.close(this.data);
   }
 
@@ -117,6 +121,10 @@ export class ActivityDialogComponent implements OnInit {
       delete: deleteActivity,
       reopenDialog: false
     };
+
+    if (!this.data.activity.timePreference?.includes(TIME.CONCRETE.name)) {
+      this.data.activity.concreteTime = undefined;
+    }
 
     this.dialogRef.close(this.data);
   }

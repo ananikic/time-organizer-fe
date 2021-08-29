@@ -11,6 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatStepperModule } from '@angular/material/stepper'
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteButttonComponent } from './delete-buttton/delete-buttton.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
@@ -30,6 +32,8 @@ const modules = [
   MatCheckboxModule,
   MatTabsModule,
   MatStepperModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
   NgbTimepickerModule,
   PickerModule,
   EmojiModule,
