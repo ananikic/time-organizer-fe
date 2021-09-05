@@ -1,0 +1,30 @@
+
+<div class="title-container">
+  <h1>Settings</h1>
+</div>
+
+<div *ngIf="user" class="settings-container">
+  <div class="profile">
+    <h2>My Profile</h2>
+    <div class="profile-email">
+      <div class="item-title">Email: </div>
+      <div class="item-content">{{ user.email }}</div>
+    </div>
+  </div>
+
+  <div class="calendar-settings">
+    <h2>Calendar Settings</h2>
+    <div class="hour-div">
+      Start Days at:
+      <input class="day-hour" min="0" max="24" name="dayStart" type="number" [(ngModel)]="dayStartHour" required/>
+      hours
+    </div>
+    <div class="hour-div">
+      End Days at:
+      <input class="day-hour end" min="0" max="24" name="dayEnd" type="number" [(ngModel)]="dayEndHour" required/>
+      hours
+    </div>
+  </div>
+
+  <button mat-raised-button *ngIf="isAuthenticated" (click)="oktaAuth.signOut()">Logout</button>
+</div>

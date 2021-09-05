@@ -1,38 +1,37 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
-import { Subject, Subscription } from 'rxjs';
-import { ActivityInstance, ActivityInstanceBinding } from 'src/app/abstraction/activities/models/activityInstance.model';
-import { PlanApiService } from 'src/app/core/plan/services/plan-api.service';
-import { ActivityInstanceDialogComponent } from './activity-instance-dialog/activity-instance-dialog.component';
-import { WeekViewHourSegment } from 'calendar-utils';
-import { addMinutes, formatISO } from 'date-fns';
-import { COLOR } from 'src/app/abstraction/activities/constants/activity.constants';
 import { OktaAuthService } from '@okta/okta-angular';
-import { AuthService } from 'src/app/core/auth/auth.service';
+import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import { addMinutes, formatISO } from 'date-fns';
+import { Subject, Subscription } from 'rxjs';
+import { COLOR } from 'src/app/abstraction/activities/constants/activity.constants';
+import { ActivityInstance, ActivityInstanceBinding } from 'src/app/abstraction/activities/models/activityInstance.model';
 import { User } from 'src/app/abstraction/activities/models/user.model';
+import { AuthService } from 'src/app/core/auth/auth.service';
+import { WeekViewHourSegment } from 'calendar-utils';
+import { PlanApiService } from 'src/app/core/plan/services/plan-api.service';
+import { ActivityInstanceDialogComponent } from '../plan/activity-instance-dialog/activity-instance-dialog.component';
 
 @Component({
-  selector: 'app-plan',
-  templateUrl: './plan.component.html',
-  styleUrls: ['./plan.component.scss'],
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class PlanComponent implements OnInit {
+export class HomeComponent implements OnInit {
   isAuthenticated: boolean = false;
+  user!: User;
 
   viewDate: Date = new Date();
-  view: CalendarView = CalendarView.Week;
+  view: CalendarView = CalendarView.Day;
   events: CalendarEvent[] = [];
   refresh: Subject<any> = new Subject();
   activityInstances!: ActivityInstance[];
   activityInstancesSub!: Subscription;
 
-  weekStartsOn: any = 1;
 
-  user!: User;
-
-  constructor(public apiPlan: PlanApiService, public dialog: MatDialog,
-    private cdr: ChangeDetectorRef, public oktaAuth: OktaAuthService,  private auth: AuthService) { }
+  constructor(public oktaAuth: OktaAuthService, private auth: AuthService,
+    public apiPlan: PlanApiService, private cdr: ChangeDetectorRef, public dialog: MatDialog) {
+  }
 
   async ngOnInit() {
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
@@ -52,7 +51,9 @@ export class PlanComponent implements OnInit {
       });
     });
 
-
+    this.oktaAuth.$authenticationState.subscribe(
+      (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
+    );
   }
 
   initEvents(): void {
@@ -72,6 +73,11 @@ export class PlanComponent implements OnInit {
       });
     });
     this.refreshView();
+  }
+
+  private refreshView(): void {
+    this.events = [...this.events];
+    this.cdr.detectChanges();
   }
 
   onClick(event: CalendarEvent, create?: boolean): void {
@@ -229,8 +235,4 @@ export class PlanComponent implements OnInit {
     this.onClick(dragToSelectEvent, true);
   }
 
-  private refreshView(): void {
-    this.events = [...this.events];
-    this.cdr.detectChanges();
-  }
 }

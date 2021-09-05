@@ -14,7 +14,11 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { PlanApiService } from './core/plan/services/plan-api.service';
 import { MockPlanApiService } from './core/plan/services/mock-plan-api.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HomeComponent } from './presentation/home/home.component';
+import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
+import { AuthInterceptor } from './core/auth/auth.interceptor';
+import { SettingsComponent } from './presentation/settings/settings.component';
 
 const apiProviderActivities = {
   provide: ActivitiesApiService,
@@ -26,10 +30,19 @@ const apiProviderPlan = {
   useClass: environment.useMockApi ? MockPlanApiService : PlanApiService
 };
 
+const oktaConfig = {
+  issuer: 'https://dev-57080089.okta.com/oauth2/default',
+  redirectUri: '/callback',
+  clientId: '0oa1m0xrviRBXFsN15d7',
+  scopes: ['openid', 'profile'],
+};
+
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationComponent
+    HomeComponent,
+    NavigationComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -38,13 +51,16 @@ const apiProviderPlan = {
     SharedModule,
     HttpClientModule,
     NgbModule,
+    OktaAuthModule,
     CalendarModule.forRoot({
       provide: DateAdapter, useFactory: adapterFactory,
      })
   ],
   providers: [
     apiProviderActivities,
-    apiProviderPlan
+    apiProviderPlan,
+    { provide: OKTA_CONFIG, useValue: oktaConfig },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

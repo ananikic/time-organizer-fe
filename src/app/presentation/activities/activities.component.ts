@@ -9,6 +9,9 @@ import { Plan, PlanBinding } from 'src/app/abstraction/activities/models/plan.mo
 import { addDays, formatISO } from 'date-fns';
 import { PlanApiService } from 'src/app/core/plan/services/plan-api.service';
 import { Router } from '@angular/router';
+import { OktaAuthService } from '@okta/okta-angular';
+import { AuthService } from 'src/app/core/auth/auth.service';
+import { User } from 'src/app/abstraction/activities/models/user.model';
 
 
 @Component({
@@ -17,19 +20,36 @@ import { Router } from '@angular/router';
   styleUrls: ['./activities.component.scss']
 })
 export class ActivitiesComponent implements OnInit, OnDestroy {
+  isAuthenticated: boolean = false;
 
   activities!: Activity[];
   activitiesSub!: Subscription;
   selected: Activity[] = [];
-  userId = 1;
+  user!: User;
 
   constructor(public apiActivities: ActivitiesApiService, public apiPlan: PlanApiService,
-    public dialog: MatDialog, private router: Router) { }
+    public dialog: MatDialog, private router: Router, public oktaAuth: OktaAuthService, private auth: AuthService) { }
 
-  ngOnInit() {
-    this.activitiesSub = this.apiActivities.getActivities(this.userId).subscribe((res) => {
-      this.activities = res;
+  async ngOnInit() {
+    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+    if (!this.isAuthenticated) {
+      this.oktaAuth.signInWithRedirect();
+    }
+
+    if (!this.auth.user) {
+      await this.auth.findUser();
+    }
+
+    this.auth.user$.subscribe((userRes) => {
+      this.user = userRes;
+      this.activitiesSub = this.apiActivities.getActivities(this.user.id!).subscribe((res) => {
+        this.activities = res;
+      });
     });
+
+    this.oktaAuth.$authenticationState.subscribe(
+      (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
+    );
   }
 
   openActivityDialog(): void {
@@ -43,7 +63,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       if (data?.activity) {
         const activityBinding: ActivityBinding = {
           name: data.activity.name,
-          userId: this.userId,
+          userId: this.user.id!,
           icon: data.activity.icon,
           secondaryColor: data.activity.color.secondaryColor,
           duration: data.activity.duration,
@@ -83,7 +103,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         const activityBinding: ActivityBinding = {
           id: data.activity.id,
           name: data.activity.name,
-          userId: this.userId,
+          userId: this.user.id!,
           icon: data.activity.icon,
           secondaryColor: data.activity.color.secondaryColor,
           duration: data.activity.duration,
@@ -125,7 +145,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       data: {
         plan: {
         selectedActivities: this.selected,
-        userId: this.userId,
+        userId: this.user.id!,
         start: null,
       }
     },

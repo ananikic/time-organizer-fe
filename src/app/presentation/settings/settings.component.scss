@@ -1,0 +1,61 @@
+.title-container {
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+h1 {
+  color: var(--gray3);
+}
+
+.settings-container {
+  padding: 40px;
+  margin: 0px 32px auto 102px;
+  border: 1px solid var(--container-border-color);
+  height: 86%;
+}
+
+.profile, .calendar-settings {
+  background-color: var(--nav-background);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.profile-email {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.item-content {
+  padding-left: 5px;
+  font-weight: bold;
+}
+
+button {
+  margin-top: 20px;
+}
+
+.day-hour {
+  margin-top: 5px;
+  margin-right: 5px;
+  width: 5em;
+  height: 3em;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  text-align: center;
+  background-color: var(--nav-background);
+  color: var(--text-color);
+
+  &.end {
+    margin-left: 16px;
+  }
+}
+
+input {
+  margin-left: 10px;
+}
+
+.hour-div {
+  margin-bottom: 5px;
+}
