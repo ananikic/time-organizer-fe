@@ -65,11 +65,22 @@ $navWidth: 70px;
   .logo {
     position: relative;
     z-index: 1;
+    background-color: var(--nav-background);
+    transition: all 500ms ease;
 
     img {
       width: 62px;
       height: 62px;
       padding-top: 8px;
+    }
+
+    &:hover {
+      background-color: var(--primary-color);
+      transition: all 500ms ease;
+      .item-label {
+        transform: scale(1) translateX(60px);
+        transition: transform 0ms ease-in;
+      }
     }
   }
 
